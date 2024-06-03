@@ -11,4 +11,9 @@ public interface UserService {
     UserDTO findById(Long id);
     void save(UserDTO userDTO);
 
+    UserDTO findByUsername(String username);
+
+    List<UserDTO>findManagers();
+
+
 }

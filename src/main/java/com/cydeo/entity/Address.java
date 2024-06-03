@@ -24,12 +24,5 @@ public class Address extends BaseEntity {
 
     private String phoneNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
-
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    private List<User> user;
 
 }

@@ -1,6 +1,8 @@
 package com.cydeo.service.impl;
 
+import com.cydeo.dto.AddressDTO;
 import com.cydeo.dto.UserDTO;
+import com.cydeo.entity.Address;
 import com.cydeo.entity.User;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.AddressRepository;
@@ -30,8 +32,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> findAll() {
-        return userRepository.findAll().stream()
-                .map(user -> mapperUtil.convert(user,new UserDTO()))
+         List<User> users=userRepository.findAll();
+        return users.stream()
+                .map(user -> {
+                    UserDTO userDTO=mapperUtil.convert(user,new UserDTO());
+                    if (user.getAddress() != null){
+                        AddressDTO addressDTO=mapperUtil.convert(user.getAddress(),new AddressDTO());
+                        userDTO.setAddress(addressDTO);
+                    }
+                    return userDTO;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -42,6 +52,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(UserDTO userDTO) {
-        userRepository.save(mapperUtil.convert(userDTO,new User()));
+
+        Address address=mapperUtil.convert(userDTO.getAddress(),new Address());
+        User user=mapperUtil.convert(userDTO,new User());
+
+        addressRepository.save(address);
+
+        user.setAddress(address);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public List<UserDTO> findManagers() {
+        return userRepository.findAll().stream()
+                .filter(user -> user.getRole().getDescription().equals("Manager"))
+                .map(user -> mapperUtil.convert(user,new UserDTO()))
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public UserDTO findByUsername(String username) {
+        return mapperUtil.convert(userRepository.findByUserName(username),new UserDTO());
     }
 }

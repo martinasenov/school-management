@@ -27,8 +27,8 @@ public class Student extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    private List<Address> address;
+    @ManyToOne
+    private Address address;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
