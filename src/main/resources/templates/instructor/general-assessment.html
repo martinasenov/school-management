@@ -9,7 +9,7 @@
 
 <div id="wrapper">
 
-    <div th:replace="fragments::leftside-bar"/>
+    <div th:replace="fragments::leftside-bar"></div>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -18,7 +18,7 @@
         <div id="content">
 
             <!-- Topbar -->
-            <nav th:replace="fragments::nav-bar"/>
+            <nav th:replace="fragments::nav-bar"></nav>
             <div style="font-weight: bold; color: darkblue">
                 <h1 th:text="'Students of Elizabeth Loren'"></h1>
             </div>
@@ -42,14 +42,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="studentLesson:${studentLessons}">
-                                    <td th:text="${studentLesson.student.firstName} + ' ' + ${studentLesson.student.lastName}"></td>
-                                    <td th:text="${studentLesson.lesson.name}"></td>
-                                    <td th:text="${#temporals.format(studentLesson.student.lessonGrade.get(studentLesson.lesson).date,'MM.dd.yyyy')}"></td>
-                                    <td th:text="${studentLesson.student.lessonGrade.get(studentLesson.lesson).grade}"></td>
-                                    <td th:text="${studentLesson.student.lessonGrade.get(studentLesson.lesson).instructorImpressionOfStudent}"></td>
+                                <tr th:each="assessment : ${studentLessons}">
+                                    <td th:text="${assessment.student.firstName} + ' ' + ${assessment.student.lastName}"></td>
+                                    <td th:text="${assessment.lesson.name}"></td>
+                                    <td th:text="${#temporals.format(assessment.assessmentDate,'MM.dd.yyyy')}"></td>
+                                    <td th:text="${assessment.grade}"></td>
+                                    <td th:text="${assessment.instructorImpressionOfStudent}"></td>
                                     <td>
-                                        <a th:href="@{/instructor/students/{email}/{id} (email=${studentLesson.student.email}, id=${studentLesson.lesson.id})}">
+                                        <a th:href="@{/instructor/students/{email}/{id} (email=${assessment.student.email}, id=${assessment.lesson.id})}">
                                             <button type="button" class="btn btn-facebook">Assess</button>
                                         </a>
                                     </td>
@@ -66,7 +66,7 @@
 
 
         <!-- Footer -->
-        <footer th:replace="fragments::footer"/>
+        <footer th:replace="fragments::footer"></footer>
         <!-- End of Footer -->
 
     </div>

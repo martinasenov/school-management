@@ -1,39 +1,28 @@
-package com.cydeo.entity;
+package com.cydeo.dto;
 
+import com.cydeo.entity.Address;
+import com.cydeo.entity.Course;
 import com.cydeo.enums.CourseStatus;
 import com.cydeo.enums.Gender;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "students")
-public class Student extends BaseEntity{
+@Data
+public class StudentDTO {
 
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
-
-    @Enumerated(EnumType.STRING)
     private Gender gender;
-
-    @ManyToOne
-    private Address address;
-
-    @OneToMany
-    private List<Course> courses;
-
-
+    private AddressDTO address;
+    private CourseDTO courses;
 
 }

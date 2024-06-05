@@ -10,9 +10,10 @@ import lombok.*;
 @Data
 public class LessonDTO {
 
+    private Long id;
     private String name;
     private String description;
-    private User instructor;
+    private UserDTO instructor;
     private CourseDTO course;
 
 

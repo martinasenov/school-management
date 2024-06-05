@@ -5,11 +5,11 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ManagerConverter implements Converter<String, UserDTO>{
+public class UserConverter implements Converter<String, UserDTO>{
 
      UserService userService;
 
-    public ManagerConverter(UserService userService) {
+    public UserConverter(UserService userService) {
         this.userService = userService;
     }
 

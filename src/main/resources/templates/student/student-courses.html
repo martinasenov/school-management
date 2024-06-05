@@ -9,7 +9,7 @@
 
 <div id="wrapper">
 
-    <div th:replace="fragments::leftside-bar"/>
+    <div th:replace="fragments::leftside-bar"></div>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -18,7 +18,7 @@
         <div id="content">
 
             <!-- Topbar -->
-            <nav th:replace="fragments::nav-bar"/>
+            <nav th:replace="fragments::nav-bar"></nav>
             <div style="font-weight: bold; color: darkblue">
                 <h1 th:text="'Courses for ' + ${student.firstName} + ' ' + ${student.lastName}"></h1>
             </div>
@@ -41,18 +41,18 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="course:${student.courseStatus}">
-                                    <td th:text="${course.key.name}"></td>
-                                    <td th:text="${course.key.courseManager.firstName} + ' ' + ${course.key.courseManager.lastName}"></td>
-                                    <td th:text="${#temporals.format(course.key.startDate,'MM.dd.yyyy')}"></td>
-                                    <td th:text="${#temporals.format(course.key.endDate,'MM.dd.yyyy')}"></td>
+                                <tr th:each="course:${courses}">
+                                    <td th:text="${course.name}"></td>
+                                    <td th:text="${course.getCourseManager().firstName} + ' ' + ${course.getCourseManager().lastName}"></td>
+                                    <td th:text="${#temporals.format(course.startDate,'MM.dd.yyyy')}"></td>
+                                    <td th:text="${#temporals.format(course.endDate,'MM.dd.yyyy')}"></td>
                                     <td>
-                                        <a th:unless="${course.value}"
-                                           th:href="@{/student/enroll/{email}/{courseId} (email=${student.email}, courseId=${course.key.id})}">
+                                        <a th:unless="${course.courseStatus}"
+                                           th:href="@{/student/enroll/{email}/{courseId} (email=${student.email}, courseId=${course.id})}">
                                             <button type="button" class="btn btn-success">Enroll</button>
                                         </a>
-                                        <a th:if="${course.value}"
-                                           th:href="@{/student/drop/{email}/{courseId} (email=${student.email}, courseId=${course.key.id})}">
+                                        <a th:if="${course.courseStatus}"
+                                           th:href="@{/student/drop/{email}/{courseId} (email=${student.email}, courseId=${course.id})}">
                                             <button type="button" class="btn btn-danger">Drop</button>
                                         </a>
                                     </td>
@@ -70,7 +70,7 @@
 
 
         <!-- Footer -->
-        <footer th:replace="fragments::footer"/>
+        <footer th:replace="fragments::footer"></footer>
         <!-- End of Footer -->
 
     </div>

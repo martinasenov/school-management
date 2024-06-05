@@ -9,6 +9,6 @@ public interface LessonService {
 
     Lesson findById(Long id);
     List<LessonDTO> findAll();
-
+    void save(LessonDTO lessonDTO);
 
 }

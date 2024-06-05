@@ -1,5 +1,6 @@
 package com.cydeo.entity;
 
+import com.cydeo.enums.CourseStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,8 +34,10 @@ public class Course extends BaseEntity {
     @OneToMany
     private List<Lesson> lessons;
 
-    @ManyToMany(mappedBy = "courses")
+    @OneToMany
     private Set<Student> students;
 
+    @Enumerated(EnumType.STRING)
+    private CourseStatus courseStatus;
 
 }

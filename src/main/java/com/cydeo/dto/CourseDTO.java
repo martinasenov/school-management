@@ -3,6 +3,7 @@ package com.cydeo.dto;
 import com.cydeo.entity.Lesson;
 import com.cydeo.entity.Student;
 import com.cydeo.entity.User;
+import com.cydeo.enums.CourseStatus;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -23,7 +24,5 @@ public class CourseDTO {
     private LocalDate endDate;
     private List<Lesson> lessons;
     private Set<Student> students;
-
-
-
+    private CourseStatus courseStatus;
 }

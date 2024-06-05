@@ -32,4 +32,10 @@ public class LessonServiceImpl implements LessonService {
                 .map(lesson -> mapperUtil.convert(lesson,new LessonDTO()))
                 .collect(Collectors.toList());
     }
+
+
+    @Override
+    public void save(LessonDTO lessonDTO) {
+        lessonRepository.save(mapperUtil.convert(lessonDTO,new Lesson()));
+    }
 }

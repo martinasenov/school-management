@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findById(Long id) {
-        return null;
+        return mapperUtil.convert(userRepository.findById(id),new UserDTO());
     }
 
     @Override
@@ -75,5 +75,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO findByUsername(String username) {
         return mapperUtil.convert(userRepository.findByUserName(username),new UserDTO());
+    }
+
+
+    @Override
+    public List<UserDTO> findInstructors() {
+        return userRepository.findAll().stream()
+                .filter(user -> user.getRole().getDescription().equals("Instructor"))
+                .map(user -> mapperUtil.convert(user,new UserDTO()))
+                .collect(Collectors.toList());
     }
 }

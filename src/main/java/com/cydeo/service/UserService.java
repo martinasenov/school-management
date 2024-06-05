@@ -14,6 +14,7 @@ public interface UserService {
     UserDTO findByUsername(String username);
 
     List<UserDTO>findManagers();
+    List<UserDTO>findInstructors();
 
 
 }
