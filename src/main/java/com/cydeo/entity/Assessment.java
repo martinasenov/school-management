@@ -18,16 +18,16 @@ import java.util.List;
 @Table(name = "assessments")
 public class Assessment extends BaseEntity {
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Student> student;
+    @ManyToOne
+    private Student student;
 
     @ManyToOne
     private Lesson lesson;
 
-    private String grade;
-
     @Column(columnDefinition = "DATE")
     private LocalDate date;
+
+    private String grade;
 
     private String instructorImpressionOfStudent;
 }

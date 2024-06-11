@@ -15,6 +15,8 @@ public interface UserService {
 
     List<UserDTO>findManagers();
     List<UserDTO>findInstructors();
+    void update(UserDTO userDTO);
+
 
 
 }

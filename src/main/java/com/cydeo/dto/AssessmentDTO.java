@@ -16,8 +16,8 @@ public class AssessmentDTO {
     private Long id;
     private StudentDTO student;
     private LessonDTO lesson;
-    private String grade;
     private LocalDate assessmentDate;
+    private String grade;
     private String instructorImpressionOfStudent;
 
 

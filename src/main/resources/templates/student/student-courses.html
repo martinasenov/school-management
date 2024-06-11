@@ -41,20 +41,20 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="course:${courses}">
+                                <tr th:each="course : ${courses}">
                                     <td th:text="${course.name}"></td>
-                                    <td th:text="${course.getCourseManager().firstName} + ' ' + ${course.getCourseManager().lastName}"></td>
+                                    <td th:text="${course.courseManager.firstName} + ' ' + ${course.courseManager.lastName}"></td>
                                     <td th:text="${#temporals.format(course.startDate,'MM.dd.yyyy')}"></td>
                                     <td th:text="${#temporals.format(course.endDate,'MM.dd.yyyy')}"></td>
                                     <td>
-                                        <a th:unless="${course.courseStatus}"
-                                           th:href="@{/student/enroll/{email}/{courseId} (email=${student.email}, courseId=${course.id})}">
-                                            <button type="button" class="btn btn-success">Enroll</button>
-                                        </a>
-                                        <a th:if="${course.courseStatus}"
-                                           th:href="@{/student/drop/{email}/{courseId} (email=${student.email}, courseId=${course.id})}">
-                                            <button type="button" class="btn btn-danger">Drop</button>
-                                        </a>
+                                        <form th:if="${!isEnrolledInCourse.test(student.id, course.id)}"
+                                              th:action="@{/student/enroll/{email}/{courseId} (email=${student.email}, courseId=${course.id})}" method="post">
+                                            <button type="submit" class="btn btn-success">Enroll</button>
+                                        </form>
+                                        <form th:if="${isEnrolledInCourse.test(student.id, course.id)}"
+                                              th:action="@{/student/drop/{email}/{courseId} (email=${student.email}, courseId=${course.id})}" method="post">
+                                            <button type="submit" class="btn btn-danger">Drop</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -83,9 +83,9 @@
 </a>
 
 <!-- Logout Modal-->
-<div th:replace="fragments::logout-modal"/>
+<div th:replace="fragments::logout-modal"></div>
 
-<div th:replace="fragments::js"/>
+<div th:replace="fragments::js"></div>
 
 </body>
 

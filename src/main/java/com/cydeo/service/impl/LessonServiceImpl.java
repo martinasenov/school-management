@@ -22,8 +22,8 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public Lesson findById(Long id) {
-        return mapperUtil.convert(lessonRepository.findById(id),new Lesson());
+    public LessonDTO findById(Long id) {
+        return mapperUtil.convert(lessonRepository.findById(id),new LessonDTO());
     }
 
     @Override

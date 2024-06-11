@@ -3,6 +3,7 @@ package com.cydeo.service.impl;
 import com.cydeo.dto.AddressDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.Address;
+import com.cydeo.entity.Role;
 import com.cydeo.entity.User;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.AddressRepository;
@@ -10,9 +11,11 @@ import com.cydeo.repository.RoleRepository;
 import com.cydeo.repository.UserRepository;
 import com.cydeo.service.AddressService;
 import com.cydeo.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -84,5 +87,50 @@ public class UserServiceImpl implements UserService {
                 .filter(user -> user.getRole().getDescription().equals("Instructor"))
                 .map(user -> mapperUtil.convert(user,new UserDTO()))
                 .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public void update(UserDTO userDTO) {
+
+
+        // Find current user by username
+        User user = userRepository.findByUserName(userDTO.getUserName());
+
+        // Get the address ID from userDTO
+        Long addressId = user.getAddress().getId();
+
+        // Check if the address ID is not null
+        if (addressId == null) {
+            throw new IllegalArgumentException("Address ID must not be null");
+        }
+
+
+
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setPassword(userDTO.getPassword());
+        user.setConfirmPassword(userDTO.getConfirmPassword());
+        user.setRole(mapperUtil.convert(userDTO.getRole(),new Role()));
+        user.setGender(userDTO.getGender());
+
+        // Find the address by ID
+        Address address = addressRepository.findById(addressId)
+                .orElseThrow(() -> new EntityNotFoundException("Address not found"));
+
+        // Update the address with the new details from userDTO
+        address = mapperUtil.convert(userDTO.getAddress(), address);
+
+        // Save the updated address
+        addressRepository.save(address);
+
+        // Set the updated address on the user
+        user.setAddress(address);
+
+
+        // Save the updated user
+        userRepository.save(user);
+
+
     }
 }

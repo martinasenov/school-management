@@ -31,9 +31,9 @@ public class Student extends BaseEntity{
     @ManyToOne
     private Address address;
 
-    @OneToMany
+    @ManyToMany(mappedBy = "students")
     private List<Course> courses;
-
-
-
 }
+/*
+@Enumerated(EnumType.STRING)
+private CourseStatus courseStatus;*/

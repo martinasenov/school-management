@@ -10,4 +10,5 @@ public interface CourseService {
     List<CourseDTO> findAll();
     CourseDTO findById(Long id);
     void save(CourseDTO courseDTO);
+
 }

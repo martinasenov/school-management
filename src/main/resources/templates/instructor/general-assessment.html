@@ -42,14 +42,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="assessment : ${studentLessons}">
-                                    <td th:text="${assessment.student.firstName} + ' ' + ${assessment.student.lastName}"></td>
-                                    <td th:text="${assessment.lesson.name}"></td>
-                                    <td th:text="${#temporals.format(assessment.assessmentDate,'MM.dd.yyyy')}"></td>
-                                    <td th:text="${assessment.grade}"></td>
-                                    <td th:text="${assessment.instructorImpressionOfStudent}"></td>
+                                <tr th:each="student : ${students}">
+                                    <td th:text="${student.firstName} + ' ' + ${student.lastName}"></td>
+                                    <td th:text="${student.courses.lesson.name}"></td>
+                                    <td th:text="${#temporals.format(#dates.now(),'MM.dd.yyyy')}"></td> <!-- Placeholder for date -->
+                                    <td th:text="'N/A'"></td> <!-- Placeholder for grade -->
+                                    <td th:text="'N/A'"></td> <!-- Placeholder for opinion -->
                                     <td>
-                                        <a th:href="@{/instructor/students/{email}/{id} (email=${assessment.student.email}, id=${assessment.lesson.id})}">
+                                        <a th:href="@{/instructor/students/{email}/{id} (email=${student.email}, id=${lesson.id})}">
                                             <button type="button" class="btn btn-facebook">Assess</button>
                                         </a>
                                     </td>

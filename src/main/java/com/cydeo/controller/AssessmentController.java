@@ -9,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
-@RequestMapping("/instructor")
 
 public class AssessmentController {
     private final AssessmentService assessmentService;
@@ -25,13 +23,7 @@ public class AssessmentController {
 
 
 
-    @GetMapping("/students")
-    public String showAssessments(Model model){
 
-       model.addAttribute("studentLessons",assessmentService.findAll());
-
-        return "/instructor/general-assessment";
-    }
 
 
 }

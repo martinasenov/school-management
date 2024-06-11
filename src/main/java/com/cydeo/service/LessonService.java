@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface LessonService {
 
-    Lesson findById(Long id);
+    LessonDTO findById(Long id);
     List<LessonDTO> findAll();
     void save(LessonDTO lessonDTO);
 

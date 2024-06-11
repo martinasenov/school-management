@@ -31,13 +31,15 @@ public class Course extends BaseEntity {
     @Column(columnDefinition = "DATE")
     private LocalDate endDate;
 
-    @OneToMany
+    @OneToMany(mappedBy = "course")
     private List<Lesson> lessons;
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "course_students",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
     private Set<Student> students;
-
-    @Enumerated(EnumType.STRING)
-    private CourseStatus courseStatus;
 
 }
