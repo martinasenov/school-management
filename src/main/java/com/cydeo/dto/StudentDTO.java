@@ -25,6 +25,6 @@ public class StudentDTO {
     private String email;
     private Gender gender;
     private AddressDTO address;
-    private List<CourseDTO> courses; // List of courses the student is enrolled in
+    private CourseDTO courseDTO;
 
 }

@@ -14,19 +14,14 @@ public interface StudentService {
    void save(StudentDTO studentDTO);
    StudentDTO findByEmail(String email);
 
-   void addToCourseList(Long courseId, String username);
-
-   List<StudentDTO> findAssignedStudents();
-
    void enrollStudentInCourse(String email, Long courseId);
    void dropStudentFromCourse(String email, Long courseId);
 
    boolean isEnrolledInCourse(Long studentId, Long courseId);
-   List<StudentDTO> findAllByCoursesIsNotNull();
 
-   List<CourseDTO> findAllStudentCourses();
+
 
    void update(StudentDTO studentDTO);
 
-
+   void addToCourseList(Long courseId,String username);
 }

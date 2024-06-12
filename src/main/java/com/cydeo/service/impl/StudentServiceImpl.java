@@ -77,26 +77,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
 
-    @Override
-    public List<StudentDTO> findAllByCoursesIsNotNull() {
 
-        return studentRepository.findAllByCoursesIsNotNull().stream()
-                .map(student -> {
-                    StudentDTO studentDTO = mapperUtil.convert(student, new StudentDTO());
-                    // Ensure courses and lessons are populated
-                    studentDTO.setCourses(student.getCourses().stream()
-                            .map(course -> {
-                                CourseDTO courseDTO = mapperUtil.convert(course, new CourseDTO());
-                                courseDTO.setLessons(course.getLessons().stream()
-                                        .map(lesson -> mapperUtil.convert(lesson, new LessonDTO()))
-                                        .collect(Collectors.toList()));
-                                return courseDTO;
-                            })
-                            .collect(Collectors.toList()));
-                    return studentDTO;
-                })
-                .collect(Collectors.toList());
-    }
 
     @Override
     public void enrollStudentInCourse(String email, Long courseId) {
@@ -134,24 +115,16 @@ public class StudentServiceImpl implements StudentService {
     // Implement the findAllCourses method
 
 
-    @Override
-    public List<CourseDTO> findAllStudentCourses() {
-        return courseRepository.findAllByStudentsIsNotNull().stream()
-                .map(course -> mapperUtil.convert(course,new CourseDTO()))
-                .collect(Collectors.toList());
-    }
+
 
     @Override
     public void update(StudentDTO studentDTO) {
 
         Student student=studentRepository.findByEmail(studentDTO.getEmail());
-        student.setCourses(mapperUtil.convert(studentDTO.getCourses(),new ArrayList<>()));
+        student.getCourses().add(mapperUtil.convert(studentDTO.getCourseDTO(),new Course()));
 
         studentRepository.save(student);
     }
 
-    @Override
-    public List<StudentDTO> findAssignedStudents() {
-        return null;
-    }
+
 }

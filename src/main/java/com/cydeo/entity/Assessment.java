@@ -30,4 +30,6 @@ public class Assessment extends BaseEntity {
     private String grade;
 
     private String instructorImpressionOfStudent;
+
+
 }

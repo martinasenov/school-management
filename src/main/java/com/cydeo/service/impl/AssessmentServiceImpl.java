@@ -1,6 +1,8 @@
 package com.cydeo.service.impl;
 
 import com.cydeo.dto.AssessmentDTO;
+import com.cydeo.dto.LessonDTO;
+import com.cydeo.dto.StudentDTO;
 import com.cydeo.entity.Assessment;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.AssessmentRepository;
@@ -36,5 +38,15 @@ public class AssessmentServiceImpl implements AssessmentService {
     @Override
     public AssessmentDTO findById(Long id) {
         return mapperUtil.convert(assessmentRepository.findById(id),new AssessmentDTO());
+    }
+
+
+    @Override
+    public AssessmentDTO findOrCreateAssessment(StudentDTO student, LessonDTO lesson) {
+        Assessment assessment = assessmentRepository
+                .findByStudentIdAndLessonId(student.getId(), lesson.getId());
+
+
+        return mapperUtil.convert(assessment, new AssessmentDTO());
     }
 }

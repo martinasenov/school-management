@@ -24,4 +24,5 @@ public class Lesson extends BaseEntity{
 
     @ManyToOne
     private Course course;
+
 }

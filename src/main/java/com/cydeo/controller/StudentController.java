@@ -50,6 +50,7 @@ public class StudentController {
         model.addAttribute("isEnrolledInCourse", (BiPredicate<Long, Long>) studentService::isEnrolledInCourse);
         return "student/student-courses";
     }
+
     @PostMapping("/enroll/{email}/{courseId}")
     public String enrollStudent(@PathVariable String email, @PathVariable Long courseId) {
         studentService.enrollStudentInCourse(email, courseId);

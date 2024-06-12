@@ -9,7 +9,7 @@
 
 <div id="wrapper">
 
-    <div th:replace="fragments::leftside-bar"/>
+    <div th:replace="fragments::leftside-bar"></div>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -18,12 +18,15 @@
         <div id="content">
 
             <!-- Topbar -->
-            <nav th:replace="fragments::nav-bar"/>
+            <nav th:replace="fragments::nav-bar"></nav>
             <div style="font-weight: bold; color: darkblue">
                 <h1>Course Edit Page</h1>
             </div>
 
-            <form th:object="${course}" th:action="@{/course/update/{id} (id=${course.id})}" method="post">
+            <form th:object="${course}" th:action="@{/course/update}" method="post">
+                <!-- Include a hidden input field for the course ID -->
+                <input type="hidden" th:field="*{id}"/>
+
                 <div class="row col-12">
                     <div class="col-3 form-group">
                         <label>Course Name
@@ -37,8 +40,7 @@
                     </div>
                     <div class="col-3 form-group">
                         <label>Description
-                            <textarea class="form-control" placeholder="Description"
-                                      th:field="*{description}"></textarea>
+                            <textarea class="form-control" placeholder="Description" th:field="*{description}"></textarea>
                         </label>
                         <div class="text-danger" th:if="${#fields.hasErrors('description')}">
                             <ul>
@@ -73,8 +75,7 @@
                     <div class="col-3 form-group">
                         <label>Course Manager</label>
                         <select class="custom-select" th:field="*{courseManager}">
-                            <option th:each="manager:${managers}" th:value="${manager.userName}"
-                                    th:text="${manager.firstName +' '+ manager.lastName}"></option>
+                            <option th:each="manager:${managers}" th:value="${manager.userName}" th:text="${manager.firstName + ' ' + manager.lastName}"></option>
                         </select>
                         <div class="text-danger" th:if="${#fields.hasErrors('courseManager')}">
                             <ul>
@@ -86,8 +87,7 @@
                 <div class="row col-6">
                     <div class="col-sm-12 col-md-12">
                         <div class="float-right">
-                            <button class="btn btn-success rounded" type="submit">Save
-                            </button>
+                            <button class="btn btn-success rounded" type="submit">Save</button>
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
 
 
         <!-- Footer -->
-        <footer th:replace="fragments::footer"/>
+        <footer th:replace="fragments::footer"></footer>
         <!-- End of Footer -->
 
     </div>
@@ -110,9 +110,9 @@
 </a>
 
 <!-- Logout Modal-->
-<div th:replace="fragments::logout-modal"/>
+<div th:replace="fragments::logout-modal"></div>
 
-<div th:replace="fragments::js"/>
+<div th:replace="fragments::js"></div>
 
 </body>
 

@@ -22,8 +22,8 @@ public class CourseDTO {
     private UserDTO courseManager;
     private LocalDate startDate;
     private LocalDate endDate;
-    private List<LessonDTO> lessons;
-    private List<StudentDTO> students; // List of students enrolled in the course
+    private List<LessonDTO> lessonDTOs;  // Note the change to List
+    private List<StudentDTO> studentDTOs;  // Note the change to List
 
 
 }

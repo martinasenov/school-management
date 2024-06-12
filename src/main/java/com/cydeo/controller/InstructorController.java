@@ -2,15 +2,13 @@ package com.cydeo.controller;
 
 
 import com.cydeo.dto.AssessmentDTO;
+import com.cydeo.dto.CourseDTO;
 import com.cydeo.dto.LessonDTO;
 import com.cydeo.dto.StudentDTO;
 import com.cydeo.entity.Assessment;
 import com.cydeo.entity.Lesson;
 import com.cydeo.entity.Student;
-import com.cydeo.service.AssessmentService;
-import com.cydeo.service.LessonService;
-import com.cydeo.service.StudentService;
-import com.cydeo.service.UserService;
+import com.cydeo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,20 +25,39 @@ public class InstructorController {
 
     private final StudentService studentService;
     private final LessonService lessonService;
+    private final CourseService courseService;
+    private final AssessmentService assessmentService;
 
 
-    public InstructorController(StudentService studentService, LessonService lessonService) {
+    public InstructorController(StudentService studentService, LessonService lessonService, CourseService courseService, AssessmentService assessmentService) {
         this.studentService = studentService;
         this.lessonService = lessonService;
+        this.courseService = courseService;
+        this.assessmentService = assessmentService;
     }
 
     @GetMapping("/students")
     public String viewStudentAssessment(Model model) {
-
-
-        model.addAttribute("students", studentService.findAllByCoursesIsNotNull());
-
+        List<Object[]> courses = courseService.findAllCoursesWithStudents();
+        if (courses.isEmpty()) {
+            System.out.println("No courses found with students");
+        }
+        model.addAttribute("courses", courses);
         return "/instructor/general-assessment";
+    }
+
+    @GetMapping("/students/{email}/{lessonId}")
+    public String assessStudent(@PathVariable String email, @PathVariable Long lessonId, Model model) {
+        StudentDTO student = studentService.findByEmail(email);
+        LessonDTO lesson = lessonService.findById(lessonId);
+
+        // Fetch or create a new assessment
+        AssessmentDTO assessment = assessmentService.findOrCreateAssessment(student, lesson);
+
+        model.addAttribute("student", student);
+        model.addAttribute("lesson", lesson);
+        model.addAttribute("assessment", assessment);
+        return "/instructor/assess-student";
     }
 
   /*  @GetMapping("/lessons/{lessonId}/students")

@@ -31,10 +31,10 @@ public class Course extends BaseEntity {
     @Column(columnDefinition = "DATE")
     private LocalDate endDate;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Lesson> lessons;
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
             name = "course_students",
             joinColumns = @JoinColumn(name = "course_id"),

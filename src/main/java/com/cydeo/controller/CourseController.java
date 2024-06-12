@@ -53,4 +53,32 @@ public class CourseController {
     }
 
 
+
+    @GetMapping("/update/{courseID}")
+    public String editCourse(@PathVariable Long courseID, Model model){
+
+        model.addAttribute("courses", courseService.findAll());
+        model.addAttribute("managers", userService.findManagers());
+        model.addAttribute("course",courseService.findById(courseID));
+
+        return "course/course-update";
+    }
+
+    @PostMapping("/update")
+    public String updateCourse(@ModelAttribute("course") CourseDTO courseDTO,BindingResult bindingResult,Model model){
+
+        if (bindingResult.hasErrors()){
+
+            model.addAttribute("courses", courseService.findAll());
+            model.addAttribute("managers", userService.findManagers());
+
+            return "course/course-update";
+        }
+
+        courseService.update(courseDTO);
+
+        return "redirect:/course/create";
+    }
+
+
 }

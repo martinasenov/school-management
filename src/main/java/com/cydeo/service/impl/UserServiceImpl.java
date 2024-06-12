@@ -1,15 +1,16 @@
 package com.cydeo.service.impl;
 
 import com.cydeo.dto.AddressDTO;
+import com.cydeo.dto.LessonDTO;
 import com.cydeo.dto.UserDTO;
-import com.cydeo.entity.Address;
-import com.cydeo.entity.Role;
-import com.cydeo.entity.User;
+import com.cydeo.entity.*;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.AddressRepository;
+import com.cydeo.repository.CourseRepository;
 import com.cydeo.repository.RoleRepository;
 import com.cydeo.repository.UserRepository;
 import com.cydeo.service.AddressService;
+import com.cydeo.service.LessonService;
 import com.cydeo.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -23,14 +24,16 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
-    private final RoleRepository roleRepository;
     private final MapperUtil mapperUtil;
+    private final CourseRepository courseRepository;
+    private final LessonService lessonService;
 
-    public UserServiceImpl(UserRepository userRepository, AddressRepository addressRepository, RoleRepository roleRepository, MapperUtil mapperUtil) {
+    public UserServiceImpl(UserRepository userRepository, AddressRepository addressRepository, MapperUtil mapperUtil, CourseRepository courseRepository, LessonService lessonService) {
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
-        this.roleRepository = roleRepository;
         this.mapperUtil = mapperUtil;
+        this.courseRepository = courseRepository;
+        this.lessonService = lessonService;
     }
 
     @Override
@@ -58,8 +61,6 @@ public class UserServiceImpl implements UserService {
 
         Address address=mapperUtil.convert(userDTO.getAddress(),new Address());
         User user=mapperUtil.convert(userDTO,new User());
-
-        addressRepository.save(address);
 
         user.setAddress(address);
 
@@ -92,20 +93,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(UserDTO userDTO) {
-
-
-        // Find current user by username
         User user = userRepository.findByUserName(userDTO.getUserName());
 
-        // Get the address ID from userDTO
         Long addressId = user.getAddress().getId();
 
-        // Check if the address ID is not null
         if (addressId == null) {
             throw new IllegalArgumentException("Address ID must not be null");
         }
-
-
 
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
@@ -114,23 +108,41 @@ public class UserServiceImpl implements UserService {
         user.setRole(mapperUtil.convert(userDTO.getRole(),new Role()));
         user.setGender(userDTO.getGender());
 
-        // Find the address by ID
+
         Address address = addressRepository.findById(addressId)
                 .orElseThrow(() -> new EntityNotFoundException("Address not found"));
 
-        // Update the address with the new details from userDTO
         address = mapperUtil.convert(userDTO.getAddress(), address);
 
-        // Save the updated address
         addressRepository.save(address);
 
-        // Set the updated address on the user
         user.setAddress(address);
 
-
-        // Save the updated user
         userRepository.save(user);
 
 
+    }
+
+    @Override
+    public void delete(String username) {
+        User user = userRepository.findByUserName(username);
+
+        List<Course> courses = courseRepository.findByCourseManager(user);
+        for (Course course : courses) {
+            course.setCourseManager(null);
+        }
+
+        List<Lesson> lessons=lessonService.findByInstructor(user);
+
+        for (Lesson lesson : lessons) {
+            lesson.setInstructor(null);
+            lessonService.save(mapperUtil.convert(lesson,new LessonDTO()));
+        }
+
+
+
+        courseRepository.saveAll(courses);
+
+        userRepository.delete(user);
     }
 }
