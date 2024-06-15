@@ -1,17 +1,12 @@
 package com.cydeo.dto;
 
-import com.cydeo.entity.Address;
-import com.cydeo.entity.Course;
-import com.cydeo.enums.CourseStatus;
 import com.cydeo.enums.Gender;
-import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,11 +15,23 @@ public class StudentDTO {
 
 
     private Long id;
+
+    @NotEmpty(message = "{NotEmpty.student.firstName}")
     private String firstName;
+
+    @NotEmpty(message = "{NotEmpty.student.lastName}")
     private String lastName;
+
+    @NotEmpty(message = "{NotEmpty.student.email}")
     private String email;
+
+    @NotNull(message = "{NotNull.student.gender}")
     private Gender gender;
+
+    @Valid
+    @NotNull(message = "{NotNull.student.address}")
     private AddressDTO address;
-    private CourseDTO courseDTO;
+
+    private CourseDTO course;
 
 }

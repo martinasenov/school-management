@@ -5,11 +5,9 @@ import com.cydeo.dto.LessonDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.*;
 import com.cydeo.mapper.MapperUtil;
-import com.cydeo.repository.AddressRepository;
-import com.cydeo.repository.CourseRepository;
-import com.cydeo.repository.RoleRepository;
-import com.cydeo.repository.UserRepository;
+import com.cydeo.repository.*;
 import com.cydeo.service.AddressService;
+import com.cydeo.service.CourseService;
 import com.cydeo.service.LessonService;
 import com.cydeo.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -27,13 +25,17 @@ public class UserServiceImpl implements UserService {
     private final MapperUtil mapperUtil;
     private final CourseRepository courseRepository;
     private final LessonService lessonService;
+    private final CourseService courseService;
+    private final LessonRepository lessonRepository;
 
-    public UserServiceImpl(UserRepository userRepository, AddressRepository addressRepository, MapperUtil mapperUtil, CourseRepository courseRepository, LessonService lessonService) {
+    public UserServiceImpl(UserRepository userRepository, AddressRepository addressRepository, MapperUtil mapperUtil, CourseRepository courseRepository, LessonService lessonService, CourseService courseService, LessonRepository lessonRepository) {
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
         this.mapperUtil = mapperUtil;
         this.courseRepository = courseRepository;
         this.lessonService = lessonService;
+        this.courseService = courseService;
+        this.lessonRepository = lessonRepository;
     }
 
     @Override
@@ -127,21 +129,14 @@ public class UserServiceImpl implements UserService {
     public void delete(String username) {
         User user = userRepository.findByUserName(username);
 
-        List<Course> courses = courseRepository.findByCourseManager(user);
-        for (Course course : courses) {
-            course.setCourseManager(null);
+        boolean hasAssignedLessons = !lessonRepository.findAllByInstructor(user).isEmpty();
+        boolean hasAssignedCourses = !courseRepository.findByCourseManager(user).isEmpty();
+
+        if (hasAssignedLessons) {
+            throw new IllegalStateException("Cannot be deleted: assigned lesson(s)");
+        } else if (hasAssignedCourses) {
+            throw new IllegalStateException("Cannot be deleted: assigned course(s)");
         }
-
-        List<Lesson> lessons=lessonService.findByInstructor(user);
-
-        for (Lesson lesson : lessons) {
-            lesson.setInstructor(null);
-            lessonService.save(mapperUtil.convert(lesson,new LessonDTO()));
-        }
-
-
-
-        courseRepository.saveAll(courses);
 
         userRepository.delete(user);
     }

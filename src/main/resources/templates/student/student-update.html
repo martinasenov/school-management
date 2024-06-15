@@ -9,7 +9,7 @@
 
 <div id="wrapper">
 
-    <div th:replace="fragments::leftside-bar"/>
+    <div th:replace="fragments::leftside-bar"></div>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -18,12 +18,13 @@
         <div id="content">
 
             <!-- Topbar -->
-            <nav th:replace="fragments::nav-bar"/>
+            <nav th:replace="fragments::nav-bar"></nav>
             <div style="font-weight: bold; color: darkblue">
                 <h1>Student Edit Page</h1>
             </div>
 
             <form th:object="${student}" th:action="@{/student/update}" method="post">
+                <input type="hidden" th:field="*{id}"/>
                 <div class="row col-12">
                     <div class="col-3 form-group">
                         <label>First Name
@@ -49,7 +50,7 @@
                 <div class="row col-12">
                     <div class="col-3 form-group">
                         <label>Email Address
-                            <input type="email" class="form-control" placeholder="Email Address" th:field="*{email}">
+                            <input type="email" class="form-control" placeholder="Email Address" th:field="*{email}" readonly>
                         </label>
                         <div class="text-danger" th:if="${#fields.hasErrors('email')}">
                             <ul>
@@ -125,7 +126,7 @@
             </form>
         </div>
         <!-- Footer -->
-        <footer th:replace="fragments::footer"/>
+        <footer th:replace="fragments::footer"></footer>
         <!-- End of Footer -->
 
     </div>
@@ -138,9 +139,9 @@
 </a>
 
 <!-- Logout Modal-->
-<div th:replace="fragments::logout-modal"/>
+<div th:replace="fragments::logout-modal"></div>
 
-<div th:replace="fragments::js"/>
+<div th:replace="fragments::js"></div>
 
 </body>
 

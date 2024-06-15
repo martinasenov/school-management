@@ -12,6 +12,7 @@ import com.cydeo.repository.CourseRepository;
 import com.cydeo.repository.StudentRepository;
 import com.cydeo.service.CourseService;
 import com.cydeo.service.StudentService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -53,6 +54,8 @@ public class StudentServiceImpl implements StudentService {
         Address address=mapperUtil.convert(studentDTO.getAddress(),new Address());
         Student student=mapperUtil.convert(studentDTO,new Student());
 
+
+
         addressRepository.save(address);
 
         student.setAddress(address);
@@ -66,7 +69,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
 
-    @Override
+/*    @Override
     public void addToCourseList(Long courseId,String username) {
 
         Student student = studentRepository.findByEmail(username);
@@ -74,7 +77,7 @@ public class StudentServiceImpl implements StudentService {
         student.getCourses().add(course);
         studentRepository.save(student);
 
-    }
+    }*/
 
 
 
@@ -112,19 +115,35 @@ public class StudentServiceImpl implements StudentService {
         return student.getCourses().contains(course);
     }
 
-    // Implement the findAllCourses method
-
-
 
 
     @Override
     public void update(StudentDTO studentDTO) {
 
         Student student=studentRepository.findByEmail(studentDTO.getEmail());
-        student.getCourses().add(mapperUtil.convert(studentDTO.getCourseDTO(),new Course()));
+
+        student.setFirstName(studentDTO.getFirstName());
+        student.setLastName(studentDTO.getLastName());
+        student.setGender(studentDTO.getGender());
+        student.setAddress(mapperUtil.convert(studentDTO.getAddress(),new Address()));
 
         studentRepository.save(student);
     }
 
+    @Override
+    public void delete(String email) {
 
+        Student student=studentRepository.findByEmail(email);
+
+        for (Course course : student.getCourses()) {
+            course.getStudents().remove(student);
+        }
+
+        student.getCourses().clear();
+
+        courseRepository.saveAll(student.getCourses());
+
+        studentRepository.delete(student);
+
+    }
 }

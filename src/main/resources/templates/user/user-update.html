@@ -9,7 +9,7 @@
 
 <div id="wrapper">
 
-    <div th:replace="fragments::leftside-bar"/>
+    <div th:replace="fragments::leftside-bar"></div>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -18,7 +18,7 @@
         <div id="content">
 
             <!-- Topbar -->
-            <nav th:replace="fragments::nav-bar"/>
+            <nav th:replace="fragments::nav-bar"></nav>
             <div style="font-weight: bold; color: darkblue">
                 <h1>User Edit Page</h1>
             </div>
@@ -116,7 +116,8 @@
                         <label>Role</label>
                         <select class="custom-select" th:field="*{role}">
                             <option th:each="role:${roles}" th:value="${role.id}"
-                                    th:text="${role.description}"></option>
+                                    th:text="${role.description}">
+                            </option>
                         </select>
                         <div class="text-danger" th:if="${#fields.hasErrors('role')}">
                             <ul>
@@ -125,6 +126,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row col-12">
                     <div class="col-3 form-group">
                         <label>Address

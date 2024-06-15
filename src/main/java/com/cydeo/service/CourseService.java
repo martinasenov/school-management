@@ -13,6 +13,6 @@ public interface CourseService {
 
     List<Object[]> findAllCoursesWithStudents();
     void update(CourseDTO courseDTO);
-
+    void delete(Long id);
 
 }

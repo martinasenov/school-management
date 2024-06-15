@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -101,8 +102,14 @@ public class CourseServiceImpl implements CourseService {
     }
 
 
+    @Override
+    public void delete(Long id) {
 
+        Course course=mapperUtil.convert(courseRepository.findById(id),new Course());
 
+        course.setCourseManager(null);
+        course.getStudents().clear();
+        courseRepository.delete(course);
 
-
+    }
 }

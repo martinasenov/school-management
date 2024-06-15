@@ -5,10 +5,12 @@ import com.cydeo.dto.CourseDTO;
 import com.cydeo.dto.LessonDTO;
 import com.cydeo.dto.StudentDTO;
 import com.cydeo.entity.Address;
+import com.cydeo.entity.Course;
 import com.cydeo.entity.Student;
 import com.cydeo.enums.State;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.service.*;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,6 +43,24 @@ public class StudentController {
         return "/student/student-create";
     }
 
+    @PostMapping("/create")
+    public String insertStudent (@Valid @ModelAttribute("student") StudentDTO studentDTO, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()) {
+
+            System.out.println();
+            System.out.println(studentDTO.toString());
+            System.out.println();
+
+            model.addAttribute("students", studentService.findALl());
+            model.addAttribute("states", State.values());
+            return "/student/student-create";
+        }
+
+        studentService.save(studentDTO);
+        return "redirect:/student/create";
+    }
+
+
     @GetMapping("/assign/{username}")
     public String assignStudent(@PathVariable String username, Model model){
         StudentDTO student = studentService.findByEmail(username);
@@ -63,18 +83,41 @@ public class StudentController {
         return "redirect:/student/assign/" + email;
     }
 
-    @PostMapping("/create")
-    public String insertStudent (@ModelAttribute("student") StudentDTO studentDTO, BindingResult bindingResult, Model model){
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("students", studentService.findALl());
+    @GetMapping("/update/{studentEmail}")
+    public String editStudent(@PathVariable("studentEmail") String email, Model model){
+
+        model.addAttribute("states", State.values());
+        model.addAttribute("student",studentService.findByEmail(email));
+
+        return "student/student-update";
+    }
+
+
+    @PostMapping("/update")
+    public String updateStudent(@Valid @ModelAttribute("student")StudentDTO studentDTO, BindingResult bindingResult, Model model){
+
+        if (bindingResult.hasErrors()){
+
             model.addAttribute("states", State.values());
-            return "/student/student-create";
+            model.addAttribute("student",studentService.findByEmail(studentDTO.getEmail()));
+
+            return "student/student-update";
         }
 
         studentService.save(studentDTO);
+
         return "redirect:/student/create";
     }
 
+
+
+    @GetMapping("/delete/{studentEmail}")
+    public String deleteUser(@PathVariable("studentEmail") String email){
+
+        studentService.delete(email);
+
+        return "redirect:/student/create";
+    }
 
 
 }

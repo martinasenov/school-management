@@ -13,15 +13,9 @@ public interface StudentService {
    List<StudentDTO> findALl();
    void save(StudentDTO studentDTO);
    StudentDTO findByEmail(String email);
-
    void enrollStudentInCourse(String email, Long courseId);
    void dropStudentFromCourse(String email, Long courseId);
-
    boolean isEnrolledInCourse(Long studentId, Long courseId);
-
-
-
    void update(StudentDTO studentDTO);
-
-   void addToCourseList(Long courseId,String username);
+   void delete(String email);
 }

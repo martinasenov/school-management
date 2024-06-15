@@ -31,10 +31,10 @@ INSERT INTO users (id, first_name, last_name, user_name, password, confirm_passw
 
 -- Insert Courses
 INSERT INTO courses (id, name, description, course_manager_id, start_date, end_date, is_deleted) VALUES
-(1, 'Aerodynamics and Flight Mechanics', 'An in-depth study of the principles of aerodynamics and the mechanics of flight, including the forces and moments acting on aircraft, stability, and control.', 1, '2024-01-01', '2024-06-01', false),
-(2, 'Programming for Aerospace Engineers', 'A comprehensive course on programming concepts, focusing on software development for aerospace applications using languages such as Python and C++.', 2, '2024-01-01', '2024-06-01', false),
-(3, 'Computer Systems and Networks in Aerospace', 'An in-depth exploration of computer architecture, operating systems, and network protocols, essential for developing reliable aerospace systems.', 3, '2024-01-01', '2024-06-01', false),
-(4, 'Flight Dynamics and Control Systems', 'Study of the dynamics of flight, including stability and control, and the design of flight control systems.', 4, '2024-01-01', '2024-06-01', false),
+(1, 'Aerodynamics and Flight Mechanics', 'An in-depth study of the principles of aerodynamics and the mechanics of flight, including the forces and moments acting on aircraft, stability, and control.', 3, '2024-01-01', '2024-06-01', false),
+(2, 'Programming for Aerospace Engineers', 'A comprehensive course on programming concepts, focusing on software development for aerospace applications using languages such as Python and C++.', 3, '2024-01-01', '2024-06-01', false),
+(3, 'Computer Systems and Networks in Aerospace', 'An in-depth exploration of computer architecture, operating systems, and network protocols, essential for developing reliable aerospace systems.', 5, '2024-01-01', '2024-06-01', false),
+(4, 'Flight Dynamics and Control Systems', 'Study of the dynamics of flight, including stability and control, and the design of flight control systems.', 5, '2024-01-01', '2024-06-01', false),
 (5, 'Artificial Intelligence in Aerospace Engineering', 'Exploring the applications of artificial intelligence in aerospace, from autonomous flight to predictive maintenance.', 5, '2024-01-01', '2024-06-01', false);
 
 
@@ -52,20 +52,20 @@ INSERT INTO students (id, first_name, last_name, email, gender, is_deleted, addr
 
 -- Insert Lessons
 INSERT INTO lessons (id, name, description, instructor_id, course_id, is_deleted) VALUES
-(1, 'Introduction to Aerodynamics', 'Fundamentals of aerodynamics, covering basic principles of airflow and the generation of lift and drag.', 1, 1, false),
-(2, 'Aircraft Stability and Control', 'Exploration of aircraft stability, control surfaces, and their effects on flight dynamics.', 1, 1, false),
+(1, 'Introduction to Aerodynamics', 'Fundamentals of aerodynamics, covering basic principles of airflow and the generation of lift and drag.', 2, 1, false),
+(2, 'Aircraft Stability and Control', 'Exploration of aircraft stability, control surfaces, and their effects on flight dynamics.', 2, 1, false),
 
 (3, 'Introduction to Python for Engineers', 'Basic programming concepts using Python, tailored for solving engineering problems.', 2, 2, false),
 (4, 'C++ for Aerospace Applications', 'Intermediate programming in C++ with a focus on developing applications for aerospace systems.', 2, 2, false),
 
-(5, 'Computer Architecture Basics', 'Introduction to the fundamental components and organization of computer systems.', 3, 3, false),
-(6, 'Operating Systems for Embedded Systems', 'Study of operating systems, focusing on those used in embedded aerospace applications.', 3, 3, false),
+(5, 'Computer Architecture Basics', 'Introduction to the fundamental components and organization of computer systems.', 2, 3, false),
+(6, 'Operating Systems for Embedded Systems', 'Study of operating systems, focusing on those used in embedded aerospace applications.', 2, 3, false),
 
 (7, 'Fundamentals of Flight Dynamics', 'Basic concepts of flight dynamics, including forces and moments on aircraft.', 4, 4, false),
 (8, 'Aircraft Stability Analysis', 'Techniques for analyzing the stability of aircraft and the impact of control surfaces.', 4, 4, false),
 
-(9, 'Introduction to AI in Aerospace', 'Overview of artificial intelligence and its potential applications in the aerospace industry.', 5, 5, false),
-(10, 'Machine Learning for Aerospace Applications', 'Introduction to machine learning techniques and their use in aerospace engineering.', 5, 5, false);
+(9, 'Introduction to AI in Aerospace', 'Overview of artificial intelligence and its potential applications in the aerospace industry.', 2, 5, false),
+(10, 'Machine Learning for Aerospace Applications', 'Introduction to machine learning techniques and their use in aerospace engineering.', 2, 5, false);
 
 -- Insert Course-Student relationships (Many-to-Many)
 INSERT INTO course_students (course_id, student_id) VALUES

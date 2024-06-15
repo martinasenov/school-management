@@ -2,6 +2,8 @@ package com.cydeo.entity;
 
 import com.cydeo.enums.Gender;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +17,8 @@ import lombok.Setter;
 @Table(name = "users")
 public class User extends BaseEntity{
 
-
     private String firstName;
+
     private String lastName;
 
     @Column(unique = true)

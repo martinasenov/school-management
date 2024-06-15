@@ -23,17 +23,16 @@ public class Student extends BaseEntity{
 
     private String firstName;
     private String lastName;
+
+    @Column(unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @ManyToMany(mappedBy = "students")
+    @ManyToMany(mappedBy = "students",cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Course> courses;
 }
-/*
-@Enumerated(EnumType.STRING)
-private CourseStatus courseStatus;*/

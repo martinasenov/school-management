@@ -7,10 +7,7 @@ import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/lesson")
@@ -40,7 +37,6 @@ public class LessonController {
     @PostMapping("/create")
     public String insertLesson(@ModelAttribute("lesson") LessonDTO lessonDTO, BindingResult bindingResult,Model model){
 
-
         if (bindingResult.hasErrors()){
 
             model.addAttribute("courses",courseService.findAll());
@@ -55,7 +51,39 @@ public class LessonController {
         return "redirect:/lesson/create";
     }
 
+    @GetMapping("/update/{lessonId}")
+    public String editLesson(@PathVariable("lessonId") Long id ,Model model){
+
+        model.addAttribute("courses",courseService.findAll());
+        model.addAttribute("instructors",userService.findInstructors());
+        model.addAttribute("lesson",lessonService.findById(id));
 
 
+        return "lesson/lesson-update";
+    }
 
+    @PostMapping("/update")
+    public String updateLesson(@ModelAttribute("lesson") LessonDTO lessonDTO,BindingResult bindingResult,Model model){
+
+
+        if (bindingResult.hasErrors()){
+
+            model.addAttribute("instructors",userService.findInstructors());
+
+            return "lesson/lesson-update";
+        }
+
+        lessonService.update(lessonDTO);
+
+        return "redirect:/lesson/create";
+    }
+
+
+    @GetMapping("/delete/{lessonId}")
+    public String deleteLesson(@PathVariable("lessonId") Long id){
+
+        lessonService.delete(id);
+
+        return "redirect:/lesson/create";
+    }
 }
