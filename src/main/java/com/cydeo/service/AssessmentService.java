@@ -15,4 +15,6 @@ public interface AssessmentService {
 
     AssessmentDTO findOrCreateAssessment(StudentDTO student, LessonDTO lesson);
 
+    AssessmentDTO findByStudentEmailAndLessonId(String email, Long lessonId);
+    void saveOrUpdate(AssessmentDTO assessment);
 }

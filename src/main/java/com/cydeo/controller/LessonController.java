@@ -4,6 +4,7 @@ import com.cydeo.dto.LessonDTO;
 import com.cydeo.service.CourseService;
 import com.cydeo.service.LessonService;
 import com.cydeo.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,7 +36,7 @@ public class LessonController {
     }
 
     @PostMapping("/create")
-    public String insertLesson(@ModelAttribute("lesson") LessonDTO lessonDTO, BindingResult bindingResult,Model model){
+    public String insertLesson(@Valid @ModelAttribute("lesson") LessonDTO lessonDTO, BindingResult bindingResult, Model model){
 
         if (bindingResult.hasErrors()){
 
@@ -63,13 +64,13 @@ public class LessonController {
     }
 
     @PostMapping("/update")
-    public String updateLesson(@ModelAttribute("lesson") LessonDTO lessonDTO,BindingResult bindingResult,Model model){
+    public String updateLesson(@Valid @ModelAttribute("lesson") LessonDTO lessonDTO,BindingResult bindingResult,Model model){
 
 
         if (bindingResult.hasErrors()){
 
             model.addAttribute("instructors",userService.findInstructors());
-
+            model.addAttribute("courses",courseService.findAll());
             return "lesson/lesson-update";
         }
 

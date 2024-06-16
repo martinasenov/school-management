@@ -2,10 +2,7 @@ package com.cydeo.service.impl;
 import com.cydeo.dto.CourseDTO;
 import com.cydeo.dto.LessonDTO;
 import com.cydeo.dto.StudentDTO;
-import com.cydeo.entity.Course;
-import com.cydeo.entity.Lesson;
-import com.cydeo.entity.Student;
-import com.cydeo.entity.User;
+import com.cydeo.entity.*;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.CourseRepository;
 import com.cydeo.repository.StudentRepository;
@@ -49,14 +46,32 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Object[]> findAllCoursesWithStudents() {
+    public List<Object[]> findAllCoursesWithStudentsAndAssessments() {
         List<Object[]> result = new ArrayList<>();
         List<Student> students = studentRepository.findAll();
 
         for (Student student : students) {
+
             for (Course course : student.getCourses()) {
+
                 for (Lesson lesson : course.getLessons()) {
-                    result.add(new Object[]{student, lesson});
+
+                    List<Assessment> assessments = lesson.getAssessments();
+
+                    if (assessments != null && !assessments.isEmpty()) {
+
+                        for (Assessment assessment : assessments) {
+
+                            if (assessment.getStudent().getId().equals(student.getId())) {
+
+                                result.add(new Object[]{student, lesson, assessment});
+                            }
+                        }
+
+                    } else {
+
+                        result.add(new Object[]{student, lesson, null});
+                    }
                 }
             }
         }

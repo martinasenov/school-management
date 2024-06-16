@@ -4,6 +4,7 @@ import com.cydeo.dto.CourseDTO;
 import com.cydeo.service.CourseService;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,7 +38,7 @@ public class CourseController {
     }
 
     @PostMapping("/create")
-    public String insertCourse(@ModelAttribute("course") CourseDTO courseDTO, BindingResult bindingResult, Model model){
+    public String insertCourse(@Valid @ModelAttribute("course") CourseDTO courseDTO, BindingResult bindingResult, Model model){
 
         if (bindingResult.hasErrors()){
 
@@ -65,7 +66,7 @@ public class CourseController {
     }
 
     @PostMapping("/update")
-    public String updateCourse(@ModelAttribute("course") CourseDTO courseDTO,BindingResult bindingResult,Model model){
+    public String updateCourse(@Valid @ModelAttribute("course") CourseDTO courseDTO,BindingResult bindingResult,Model model){
 
         if (bindingResult.hasErrors()){
 

@@ -19,6 +19,7 @@
 
             <!-- Topbar -->
             <nav th:replace="fragments::nav-bar"></nav>
+            <div class="alert alert-danger text-center" role="alert" th:text="${error}" th:if="${error}"></div>
             <div style="font-weight: bold; color: darkblue">
                 <h1>User Creation Page</h1>
             </div>
@@ -204,7 +205,7 @@
                     </div>
                 </div>
             </div>
-            <div class="alert alert-danger text-center" role="alert" th:text="${error}" th:if="${error}"></div>
+
 
         </div>
         <!-- End of Main Content -->

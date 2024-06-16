@@ -12,4 +12,5 @@ public interface AssessmentRepository extends JpaRepository<Assessment,Long> {
 
 
     Assessment findByStudentIdAndLessonId(Long studentId, Long lessonId);
+    Assessment findByStudentAndLesson(Student student, Lesson lesson);
 }

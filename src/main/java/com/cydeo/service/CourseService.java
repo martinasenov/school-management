@@ -11,7 +11,7 @@ public interface CourseService {
     CourseDTO findById(Long id);
     void save(CourseDTO courseDTO);
 
-    List<Object[]> findAllCoursesWithStudents();
+    List<Object[]> findAllCoursesWithStudentsAndAssessments();
     void update(CourseDTO courseDTO);
     void delete(Long id);
 

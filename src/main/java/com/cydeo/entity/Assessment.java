@@ -31,5 +31,4 @@ public class Assessment extends BaseEntity {
 
     private String instructorImpressionOfStudent;
 
-
 }

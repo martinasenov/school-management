@@ -19,6 +19,10 @@
 
             <!-- Topbar -->
             <nav th:replace="fragments::nav-bar"></nav>
+
+            <!-- Display error message -->
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
             <div style="font-weight: bold; color: darkblue">
                 <h1>Student Creation Page</h1>
             </div>

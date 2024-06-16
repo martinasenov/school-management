@@ -5,10 +5,12 @@ import com.cydeo.dto.LessonDTO;
 import com.cydeo.dto.StudentDTO;
 import com.cydeo.entity.Address;
 import com.cydeo.entity.Course;
+import com.cydeo.entity.Lesson;
 import com.cydeo.entity.Student;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.AddressRepository;
 import com.cydeo.repository.CourseRepository;
+import com.cydeo.repository.LessonRepository;
 import com.cydeo.repository.StudentRepository;
 import com.cydeo.service.CourseService;
 import com.cydeo.service.StudentService;
@@ -27,13 +29,15 @@ public class StudentServiceImpl implements StudentService {
     private final CourseService courseService;
     private final CourseRepository courseRepository;
     private final AddressRepository addressRepository;
+    private final LessonRepository lessonRepository;
 
-    public StudentServiceImpl(StudentRepository studentRepository, MapperUtil mapperUtil, CourseService courseService, CourseRepository courseRepository, AddressRepository addressRepository) {
+    public StudentServiceImpl(StudentRepository studentRepository, MapperUtil mapperUtil, CourseService courseService, CourseRepository courseRepository, AddressRepository addressRepository, LessonRepository lessonRepository) {
         this.studentRepository = studentRepository;
         this.mapperUtil = mapperUtil;
         this.courseService = courseService;
         this.courseRepository = courseRepository;
         this.addressRepository = addressRepository;
+        this.lessonRepository = lessonRepository;
     }
 
     @Override
@@ -69,18 +73,6 @@ public class StudentServiceImpl implements StudentService {
     }
 
 
-/*    @Override
-    public void addToCourseList(Long courseId,String username) {
-
-        Student student = studentRepository.findByEmail(username);
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new IllegalArgumentException("Invalid course ID"));
-        student.getCourses().add(course);
-        studentRepository.save(student);
-
-    }*/
-
-
-
 
     @Override
     public void enrollStudentInCourse(String email, Long courseId) {
@@ -93,6 +85,7 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.save(student);
         courseRepository.save(course);
     }
+
 
 
     @Override
@@ -117,15 +110,31 @@ public class StudentServiceImpl implements StudentService {
 
 
 
+
     @Override
     public void update(StudentDTO studentDTO) {
 
         Student student=studentRepository.findByEmail(studentDTO.getEmail());
 
+        Long addressId = student.getAddress().getId();
+
+        if (addressId == null) {
+            throw new IllegalArgumentException("Address ID must not be null");
+        }
+
         student.setFirstName(studentDTO.getFirstName());
         student.setLastName(studentDTO.getLastName());
         student.setGender(studentDTO.getGender());
-        student.setAddress(mapperUtil.convert(studentDTO.getAddress(),new Address()));
+
+        Address address = addressRepository.findById(addressId)
+                .orElseThrow(() -> new EntityNotFoundException("Address not found"));
+
+
+        address = mapperUtil.convert(studentDTO.getAddress(), address);
+
+        addressRepository.save(address);
+
+        student.setAddress(address);
 
         studentRepository.save(student);
     }
@@ -135,15 +144,13 @@ public class StudentServiceImpl implements StudentService {
 
         Student student=studentRepository.findByEmail(email);
 
-        for (Course course : student.getCourses()) {
-            course.getStudents().remove(student);
+        if (studentRepository.hasCoursesAssigned(email)) {
+            throw new IllegalStateException("Cannot delete student because they are assigned to courses.");
         }
-
-        student.getCourses().clear();
-
-        courseRepository.saveAll(student.getCourses());
 
         studentRepository.delete(student);
 
     }
+
+
 }

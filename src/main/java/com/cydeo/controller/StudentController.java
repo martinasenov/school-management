@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -47,9 +48,6 @@ public class StudentController {
     public String insertStudent (@Valid @ModelAttribute("student") StudentDTO studentDTO, BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()) {
 
-            System.out.println();
-            System.out.println(studentDTO.toString());
-            System.out.println();
 
             model.addAttribute("students", studentService.findALl());
             model.addAttribute("states", State.values());
@@ -99,9 +97,9 @@ public class StudentController {
         if (bindingResult.hasErrors()){
 
             model.addAttribute("states", State.values());
-            model.addAttribute("student",studentService.findByEmail(studentDTO.getEmail()));
+            model.addAttribute("student", studentDTO);
 
-            return "student/student-update";
+            return "/student/student-update";
         }
 
         studentService.save(studentDTO);
@@ -112,9 +110,15 @@ public class StudentController {
 
 
     @GetMapping("/delete/{studentEmail}")
-    public String deleteUser(@PathVariable("studentEmail") String email){
+    public String deleteUser(@PathVariable("studentEmail") String email, RedirectAttributes redirectAttributes){
 
-        studentService.delete(email);
+
+        try{
+            studentService.delete(email);
+        } catch (IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+
 
         return "redirect:/student/create";
     }

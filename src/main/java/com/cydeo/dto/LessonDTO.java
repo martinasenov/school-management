@@ -3,6 +3,7 @@ package com.cydeo.dto;
 import com.cydeo.entity.Course;
 import com.cydeo.entity.User;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -14,16 +15,18 @@ public class LessonDTO {
 
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "{NotBlank.lesson.name}")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "{NotBlank.lesson.description}")
     private String description;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "{NotNull.lesson.instructor}")
     private UserDTO instructor;
 
-    @NotNull
+    @Valid
+    @NotNull(message = "{NotNull.lesson.course}")
     private CourseDTO course;
 
 
