@@ -32,7 +32,7 @@ public class LessonController {
         model.addAttribute("instructors",userService.findInstructors());
         model.addAttribute("lessons",lessonService.findAll());
 
-        return "/lesson/lesson-create";
+        return "lesson/lesson-create";
     }
 
     @PostMapping("/create")
@@ -44,7 +44,7 @@ public class LessonController {
             model.addAttribute("instructors",userService.findInstructors());
             model.addAttribute("lessons",lessonService.findAll());
 
-            return "/lesson/lesson-create";
+            return "lesson/lesson-create";
         }
 
         lessonService.save(lessonDTO);

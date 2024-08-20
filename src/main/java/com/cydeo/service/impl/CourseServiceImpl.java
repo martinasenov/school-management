@@ -1,4 +1,5 @@
 package com.cydeo.service.impl;
+
 import com.cydeo.dto.CourseDTO;
 import com.cydeo.dto.LessonDTO;
 import com.cydeo.dto.StudentDTO;
@@ -31,18 +32,18 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseDTO> findAll() {
         return courseRepository.findAll().stream()
-                .map(course->mapperUtil.convert(course,new CourseDTO()))
+                .map(course -> mapperUtil.convert(course, new CourseDTO()))
                 .collect(Collectors.toList());
     }
 
     @Override
     public CourseDTO findById(Long id) {
-        return mapperUtil.convert(courseRepository.findById(id),new CourseDTO());
+        return mapperUtil.convert(courseRepository.findById(id), new CourseDTO());
     }
 
     @Override
     public void save(CourseDTO courseDTO) {
-        courseRepository.save(mapperUtil.convert(courseDTO,new Course()));
+        courseRepository.save(mapperUtil.convert(courseDTO, new Course()));
     }
 
     @Override
@@ -120,7 +121,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void delete(Long id) {
 
-        Course course=mapperUtil.convert(courseRepository.findById(id),new Course());
+        Course course = mapperUtil.convert(courseRepository.findById(id), new Course());
 
         course.setCourseManager(null);
         course.getStudents().clear();

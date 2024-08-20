@@ -41,7 +41,7 @@ public class StudentController {
         model.addAttribute("student", new StudentDTO());
         model.addAttribute("students", studentService.findALl());
         model.addAttribute("states", State.values());
-        return "/student/student-create";
+        return "student/student-create";
     }
 
     @PostMapping("/create")
@@ -51,7 +51,7 @@ public class StudentController {
 
             model.addAttribute("students", studentService.findALl());
             model.addAttribute("states", State.values());
-            return "/student/student-create";
+            return "student/student-create";
         }
 
         studentService.save(studentDTO);
@@ -99,7 +99,7 @@ public class StudentController {
             model.addAttribute("states", State.values());
             model.addAttribute("student", studentDTO);
 
-            return "/student/student-update";
+            return "student/student-update";
         }
 
         studentService.save(studentDTO);

@@ -34,7 +34,7 @@ public class CourseController {
         model.addAttribute("managers", userService.findManagers());
 
 
-        return "/course/course-create";
+        return "course/course-create";
     }
 
     @PostMapping("/create")
@@ -45,7 +45,7 @@ public class CourseController {
             model.addAttribute("courses", courseService.findAll());
             model.addAttribute("managers", userService.findManagers());
 
-            return "/course/course-create";
+            return "course/course-create";
         }
 
         courseService.save(courseDTO);

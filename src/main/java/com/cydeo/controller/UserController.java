@@ -43,8 +43,7 @@ public class UserController {
         model.addAttribute("users", userService.findAll());
         model.addAttribute("user", new UserDTO());
 
-
-        return "/user/user-create";
+        return "user/user-create";
     }
 
     @PostMapping("/create")
@@ -56,14 +55,12 @@ public class UserController {
             model.addAttribute("states", State.values());
             model.addAttribute("users", userService.findAll());
 
-            return "/user/user-create";
-
+            return "user/user-create";
         }
 
         userService.save(userdto);
 
         return "redirect:/user/create";
-
     }
 
     @GetMapping("/update/{username}")
@@ -73,29 +70,8 @@ public class UserController {
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("states", State.values());
 
-        return "/user/user-update";
+        return "user/user-update";
     }
-
-
-
-
-
-   /* @PostMapping("/update")
-    public String updateUser(@ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult, Model model){
-
-        if (bindingResult.hasErrors()) {
-
-            model.addAttribute("roles", roleService.findAll());
-            model.addAttribute("states", State.values());
-
-            return "/user/user-update";
-
-        }
-
-        userService.update(userDTO);
-        return "redirect:/user/create";
-    }*/
-
 
 
     @PostMapping("/update")
@@ -119,7 +95,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("roles", roleService.findAll());
             model.addAttribute("states", State.values());
-            return "/user/user-update";
+            return "user/user-update";
         }
 
         userService.update(userDTO);
@@ -137,7 +113,4 @@ public class UserController {
         }
         return "redirect:/user/create";
     }
-
-
-
 }

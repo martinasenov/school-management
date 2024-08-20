@@ -42,7 +42,7 @@ public class InstructorController {
             System.out.println("No courses found with students");
         }
         model.addAttribute("courses", courses);
-        return "/instructor/general-assessment";
+        return "instructor/general-assessment";
     }
 
     @GetMapping("/students/{email}/{lessonId}")
@@ -59,7 +59,7 @@ public class InstructorController {
         model.addAttribute("lesson", lesson);
         model.addAttribute("instructorAssessment", existingAssessment);
 
-        return "/instructor/assess-student";
+        return "instructor/assess-student";
     }
 
     @PostMapping("/students/{email}/{lessonId}")
@@ -70,7 +70,7 @@ public class InstructorController {
             LessonDTO lesson = lessonService.findById(lessonId);
             model.addAttribute("student", student);
             model.addAttribute("lesson", lesson);
-            return "/instructor/assess-student";
+            return "instructor/assess-student";
         }
 
         assessment.setLesson(lessonService.findById(lessonId));
