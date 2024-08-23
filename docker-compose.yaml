@@ -1,0 +1,54 @@
+#docker run --name my-postgres-db \
+#-e POSTGRES_USER=postgres \
+#-e POSTGRES_PASSWORD=admin \
+#-e POSTGRES_DB=SchoolManagementApp \
+#--network my-network \
+#-v my-data:/var/lib/postgresql/data \
+#postgres
+
+version: '3.8'
+
+#docker network create -d bridge my-network-2
+networks:
+    my-network-2:
+      driver: bridge
+
+volumes:
+  my-data-2:
+services:
+  my-postgres-db-2:
+    image: postgres
+    container_name: my-postgres-db-2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: SchoolManagementApp
+    networks:
+      - my-network-2
+    volumes:
+        - my-data-2:/var/lib/postgresql/data
+    ports:
+      - '5435:5432'
+    restart: always
+  #docker run --name school-management-app \
+  #-e DB_URL=jdbc:postgresql://my-postgres-db:5432/SchoolManagementApp \
+  #-e DB_USERNAME=postgres \
+  #-e DB_PASSWORD=admin \
+  #--network my-network \
+  #-p 8080:8080 \
+  #ulumito/school-management-app:network
+
+  school-management-app-2:
+    image: ulumito/school-management-app:network
+    container_name: school-management-app-2
+    environment:
+      DB_URL: jdbc:postgresql://my-postgres-db-2:5432/SchoolManagementApp
+      DB_USERNAME: postgres
+      DB_PASSWORD: admin
+    networks:
+        - my-network-2
+    ports:
+        - '8080:8080'
+    depends_on:
+       my-postgres-db-2:
+          condition: service_started
