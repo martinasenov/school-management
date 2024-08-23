@@ -14,10 +14,10 @@ jobs:
             echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
       - run:
           name: Build Docker Image
-          command: docker build -t ulumito/school-management-app:${CIRCLE_SHA1} .
+          command: docker build -t ulumito/school-management-app:latest .
       - run:
           name: Push Docker Image
-          command: docker push ulumito/school-management-app:${CIRCLE_SHA1}
+          command: docker push ulumito/school-management-app:latest
 
 workflows:
   version: 2
