@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/openjdk:17.0
+      - image: circleci/openjdk:17-jdk-slim
     steps:
       - checkout
       - setup_remote_docker:
@@ -18,6 +18,14 @@ jobs:
       - run:
           name: Push Docker Image
           command: docker push ulumito/school-management-app:latest
+      - run:
+          name: Deploy to Local Environment
+          command: |
+            ssh -o StrictHostKeyChecking=no ulumito@localhost << 'EOF'
+            docker pull ulumito/school-management-app:latest
+            docker-compose down
+            docker-compose up -d
+            EOF
 
 workflows:
   version: 2
