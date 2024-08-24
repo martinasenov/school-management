@@ -21,11 +21,11 @@ jobs:
       - run:
           name: Deploy and Notify
           command: |
-            ssh -o StrictHostKeyChecking=no ulumito@<remote_server_ip> << EOF
-            docker pull ulumito/school-management-app:latest
-            docker-compose down
+            ssh -o StrictHostKeyChecking=no ulumito@<remote_server_ip> "
+            docker pull ulumito/school-management-app:latest &&
+            docker-compose down &&
             docker-compose up -d
-            EOF
+            "
             echo "Application is available at https://3689-37-201-5-71.ngrok-free.app"
 
 workflows:
