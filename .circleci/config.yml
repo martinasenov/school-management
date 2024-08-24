@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:17-jdk-slim
+      - image: cimg/openjdk:17.0
     steps:
       - checkout
       - setup_remote_docker:
