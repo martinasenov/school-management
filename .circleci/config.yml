@@ -21,7 +21,7 @@ jobs:
       - run:
           name: Deploy to Local Environment
           command: |
-            ssh -o StrictHostKeyChecking=no ulumito@localhost << 'EOF'
+            ssh -o StrictHostKeyChecking=no ulumito@localhost \<< 'EOF'
             docker pull ulumito/school-management-app:latest
             docker-compose down
             docker-compose up -d
