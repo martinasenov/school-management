@@ -30,14 +30,6 @@ services:
     ports:
       - '5435:5432'
     restart: always
-  #docker run --name school-management-app \
-  #-e DB_URL=jdbc:postgresql://my-postgres-db:5432/SchoolManagementApp \
-  #-e DB_USERNAME=postgres \
-  #-e DB_PASSWORD=admin \
-  #--network my-network \
-  #-p 8080:8080 \
-  #ulumito/school-management-app:network
-
   school-management-app-2:
     image: ulumito/school-management-app:network
     container_name: school-management-app-2
@@ -52,3 +44,11 @@ services:
     depends_on:
        my-postgres-db-2:
           condition: service_started
+
+  #docker run --name school-management-app \
+  #-e DB_URL=jdbc:postgresql://my-postgres-db:5432/SchoolManagementApp \
+  #-e DB_USERNAME=postgres \
+  #-e DB_PASSWORD=admin \
+  #--network my-network \
+  #-p 8080:8080 \
+  #ulumito/school-management-app:network
