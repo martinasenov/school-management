@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
 
 <head th:replace="fragments::page-header">
 
@@ -20,7 +21,7 @@
             <!-- Topbar -->
             <nav th:replace="fragments::nav-bar"></nav>
             <div style="font-weight: bold; color: darkblue">
-                <h1 th:text="'Students of Elizabeth Loren'"></h1>
+                <h1 th:text="${'Students of '+ #authentication?.principal?.getFullNameForProfile()} ?: 'Name Not Found'"></h1>
             </div>
             <div class="container-fluid">
 

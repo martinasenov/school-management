@@ -3,13 +3,13 @@
 
 <head th:replace="fragments::page-header">
 
-</head>
+    <title></title></head>
 
 <body id="page-top">
 
 <div id="wrapper">
 
-    <div th:replace="fragments::leftside-bar"/>
+    <div th:replace="fragments::leftside-bar"></div>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -18,9 +18,9 @@
         <div id="content">
 
             <!-- Topbar -->
-            <nav th:replace="fragments::nav-bar"/>
+            <nav th:replace="fragments::nav-bar"></nav>
 
-            <div style="background-image: url('img/meeting.jpg'); background-position: center; background-repeat: no-repeat;background-size: cover;height: 90%">
+            <div style="background-image: url('/img/meeting.jpg'); background-position: center; background-repeat: no-repeat;background-size: cover;height: 90%">
                 <h1 style="font-size: 80px;text-align: center; padding-top: 250px;font-weight: bold">welcome to the
                     sMa...</h1>
             </div>
@@ -28,7 +28,7 @@
         <!-- End of Main Content -->
 
         <!-- Footer -->
-        <footer th:replace="fragments::footer"/>
+        <footer th:replace="fragments::footer"></footer>
 
         <!-- End of Footer -->
 
@@ -42,9 +42,9 @@
 </a>
 
 <!-- Logout Modal-->
-<div th:replace="fragments::logout-modal"/>
+<div th:replace="fragments::logout-modal"></div>
 
-<div th:replace="fragments::js"/>
+<div th:replace="fragments::js"></div>
 
 </body>
 

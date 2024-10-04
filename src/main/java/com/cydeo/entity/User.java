@@ -36,4 +36,10 @@ public class User extends BaseEntity{
     @ManyToOne(cascade = CascadeType.ALL)
     private Address address;
 
+
+    public User(Long id, String firstName, String lastName) {
+        super.setId(id);
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }

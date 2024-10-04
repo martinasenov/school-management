@@ -41,4 +41,9 @@ public class UserDTO {
     @NotNull(message = "{NotNull.user.address}")
     private AddressDTO address;
 
+    public UserDTO(Long id, String firstName, String lastName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }

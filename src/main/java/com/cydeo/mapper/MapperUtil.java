@@ -1,5 +1,6 @@
 package com.cydeo.mapper;
 
+import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +18,10 @@ public class MapperUtil {
     }
 
 
-
     public <T> T convert(Object objectToBeConverted, T convertedObject){
 
         return modelMapper.map(objectToBeConverted,(Type) convertedObject.getClass());
     }
+
+
 }

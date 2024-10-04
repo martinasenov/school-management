@@ -7,7 +7,6 @@ import com.cydeo.enums.State;
 import com.cydeo.repository.CourseRepository;
 import com.cydeo.repository.LessonRepository;
 import com.cydeo.repository.UserRepository;
-import com.cydeo.service.AddressService;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
 import jakarta.validation.Valid;

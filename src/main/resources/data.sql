@@ -21,11 +21,11 @@ INSERT INTO addresses (id, address_info, state, phone_number, is_deleted) VALUES
 
 -- Insert Users
 INSERT INTO users (id, first_name, last_name, user_name, password, confirm_password, role_id, gender, is_deleted, address_id) VALUES
-(1, 'John', 'Doe', 'jdoe@example.com', 'password123', 'password123', 1, 'MALE', false, 1),
-(2, 'Jane', 'Smith', 'jsmith@example.com', 'password123', 'password123', 2, 'FEMALE', false, 2),
-(3, 'Alice', 'Johnson', 'ajohnson@example.com', 'password123', 'password123', 3, 'FEMALE', false, 3),
-(4, 'Bob', 'Brown', 'bbrown@example.com', 'password123', 'password123', 2, 'MALE', false, 4),
-(5, 'Charlie', 'Davis', 'cdavis@example.com', 'password123', 'password123', 3, 'MALE', false, 5);
+(1, 'John', 'Doe', 'jdoe@example.com', '$2a$10$hU422Xg0/2EY.nKWkxHaM.Waav28oaxpcvN7M608UdFsmSvGqLVZe', '$2a$10$hU422Xg0/2EY.nKWkxHaM.Waav28oaxpcvN7M608UdFsmSvGqLVZe', 1, 'MALE', false, 1),
+(2, 'Jane', 'Smith', 'jsmith@example.com', '$2a$10$hU422Xg0/2EY.nKWkxHaM.Waav28oaxpcvN7M608UdFsmSvGqLVZe', '$2a$10$hU422Xg0/2EY.nKWkxHaM.Waav28oaxpcvN7M608UdFsmSvGqLVZe', 2, 'FEMALE', false, 2),
+(3, 'Alice', 'Johnson', 'ajohnson@example.com', '$2a$10$hU422Xg0/2EY.nKWkxHaM.Waav28oaxpcvN7M608UdFsmSvGqLVZe', '$2a$10$hU422Xg0/2EY.nKWkxHaM.Waav28oaxpcvN7M608UdFsmSvGqLVZe', 3, 'FEMALE', false, 3),
+(4, 'Bob', 'Brown', 'bbrown@example.com', '$2a$10$hU422Xg0/2EY.nKWkxHaM.Waav28oaxpcvN7M608UdFsmSvGqLVZe', '$2a$10$hU422Xg0/2EY.nKWkxHaM.Waav28oaxpcvN7M608UdFsmSvGqLVZe', 2, 'MALE', false, 4),
+(5, 'Charlie', 'Davis', 'cdavis@example.com', '$2a$10$hU422Xg0/2EY.nKWkxHaM.Waav28oaxpcvN7M608UdFsmSvGqLVZe', '$2a$10$hU422Xg0/2EY.nKWkxHaM.Waav28oaxpcvN7M608UdFsmSvGqLVZe', 3, 'MALE', false, 5);
 
 
 

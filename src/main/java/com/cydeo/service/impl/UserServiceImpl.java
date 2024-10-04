@@ -1,20 +1,15 @@
 package com.cydeo.service.impl;
-
-import com.cydeo.dto.AddressDTO;
-import com.cydeo.dto.LessonDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.*;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.*;
-import com.cydeo.service.AddressService;
-import com.cydeo.service.CourseService;
-import com.cydeo.service.LessonService;
 import com.cydeo.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,38 +19,36 @@ public class UserServiceImpl implements UserService {
     private final AddressRepository addressRepository;
     private final MapperUtil mapperUtil;
     private final CourseRepository courseRepository;
-    private final LessonService lessonService;
-    private final CourseService courseService;
     private final LessonRepository lessonRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, AddressRepository addressRepository, MapperUtil mapperUtil, CourseRepository courseRepository, LessonService lessonService, CourseService courseService, LessonRepository lessonRepository) {
+    public UserServiceImpl(UserRepository userRepository,
+                           AddressRepository addressRepository,
+                           MapperUtil mapperUtil,
+                           CourseRepository courseRepository,
+                           LessonRepository lessonRepository,
+                           @Lazy PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
         this.mapperUtil = mapperUtil;
         this.courseRepository = courseRepository;
-        this.lessonService = lessonService;
-        this.courseService = courseService;
         this.lessonRepository = lessonRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public List<UserDTO> findAll() {
-         List<User> users=userRepository.findAll();
-        return users.stream()
-                .map(user -> {
-                    UserDTO userDTO=mapperUtil.convert(user,new UserDTO());
-                    if (user.getAddress() != null){
-                        AddressDTO addressDTO=mapperUtil.convert(user.getAddress(),new AddressDTO());
-                        userDTO.setAddress(addressDTO);
-                    }
-                    return userDTO;
-                })
+
+        return userRepository.findAll().stream()
+                .map(user -> mapperUtil.convert(user,new UserDTO()))
                 .collect(Collectors.toList());
     }
 
     @Override
     public UserDTO findById(Long id) {
-        return mapperUtil.convert(userRepository.findById(id),new UserDTO());
+        return userRepository.findById(id)
+                .map(user -> mapperUtil.convert(user, new UserDTO()))
+                .orElse(null);
     }
 
     @Override
@@ -65,31 +58,34 @@ public class UserServiceImpl implements UserService {
         User user=mapperUtil.convert(userDTO,new User());
 
         user.setAddress(address);
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
         userRepository.save(user);
     }
 
     @Override
     public List<UserDTO> findManagers() {
-        return userRepository.findAll().stream()
-                .filter(user -> user.getRole().getDescription().equals("Manager"))
+        return userRepository.findByRole_Description("Manager").stream()
                 .map(user -> mapperUtil.convert(user,new UserDTO()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
 
     @Override
     public UserDTO findByUsername(String username) {
-        return mapperUtil.convert(userRepository.findByUserName(username),new UserDTO());
+        User user = userRepository.findByUserName(username);
+        if (user == null) {
+            throw new EntityNotFoundException("User with username: "+username+" does not exist");
+        }
+        return mapperUtil.convert(user, new UserDTO());
     }
 
 
     @Override
     public List<UserDTO> findInstructors() {
-        return userRepository.findAll().stream()
-                .filter(user -> user.getRole().getDescription().equals("Instructor"))
+        return userRepository.findByRole_Description("Instructor").stream()
                 .map(user -> mapperUtil.convert(user,new UserDTO()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
 
