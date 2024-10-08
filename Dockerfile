@@ -1,8 +1,14 @@
 FROM openjdk:17-slim
 
-WORKDIR usr/app
+WORKDIR /usr/app
 
 COPY target/school-management-0.0.1-SNAPSHOT.jar school-management-0.0.1-SNAPSHOT.jar
+
+COPY init-db.sh /docker-entrypoint-initdb.d/init-db.sh
+
+COPY src/main/resources/data.sql /docker-entrypoint-initdb.d/data.sql
+
+RUN chmod +x /docker-entrypoint-initdb.d/init-db.sh
 
 ENTRYPOINT ["java","-jar","school-management-0.0.1-SNAPSHOT.jar"]
 
